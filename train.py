@@ -7,6 +7,8 @@ Usage: uv run train.py
 import os
 os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
+# Triton's bundled ptxas predates Blackwell sm_121a; use the system CUDA 13 ptxas instead
+os.environ.setdefault("TRITON_PTXAS_PATH", "/usr/local/cuda/bin/ptxas")
 
 import gc
 import math
