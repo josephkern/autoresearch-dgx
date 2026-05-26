@@ -1,0 +1,50 @@
+commit	val_bpb	memory_gb	status	description
+fde11cc	1.364508	1.0	keep	baseline (SDPA + DGX hyperparams)
+d0eb549	1.243339	3.6	keep	DEVICE_BATCH_SIZE 8 -> 32 (grad_accum 4 -> 1)
+5a77eb1	1.302770	11.3	discard	DEPTH 4 -> 8 (undertrained: 232 steps, 15M tokens)
+4e3ddc3	1.244942	3.6	discard	WARMDOWN_RATIO 0.5 -> 0.3 (within-noise regression)
+46682a7	1.238974	3.6	keep	MATRIX_LR 0.04 -> 0.06
+0a94422	1.243534	3.6	discard	MATRIX_LR 0.06 -> 0.08 (too aggressive)
+eca070c	1.240940	3.6	discard	WARMUP_RATIO 0.0 -> 0.05 (within-noise regression)
+93d6e0d	1.237532	3.6	keep	WEIGHT_DECAY 0.2 -> 0.1
+c9c7b24	1.240672	3.6	discard	WEIGHT_DECAY 0.1 -> 0.0 (too low)
+9649bc6	1.235397	3.6	keep	UNEMBEDDING_LR 0.004 -> 0.006
+d8ece9e	1.235186	3.6	keep	UNEMBEDDING_LR 0.006 -> 0.010 (within noise)
+add9cac	1.242622	3.6	discard	EMBEDDING_LR 0.6 -> 0.9 (too aggressive)
+e45169a	1.233459	4.9	keep	ASPECT_RATIO 64 -> 96 (wider: model_dim 256->384, 19.7M params)
+691eacf	1.251026	6.2	discard	ASPECT_RATIO 96 -> 128 (too wide: 32M params, 410 steps)
+085808f	1.237007	4.9	discard	ADAM_BETAS beta1 0.8 -> 0.9
+dedb748	1.254127	9.6	discard	DBS 32->64 TBS 2**16->2**17 (halved steps to 289)
+16379d6	1.232577	2.5	keep	DBS 32->16 TBS 2**16->2**15 (1090 steps)
+f1ebc2a	1.241441	1.4	discard	DBS 16->8 TBS 2**15->2**14 (too noisy)
+de0ac37	1.225607	2.5	keep	MATRIX_LR 0.06 -> 0.05 (retune at DBS=16)
+1419fea	1.228695	2.5	discard	MATRIX_LR 0.05 -> 0.04 (too low at DBS=16)
+037f198	1.222886	2.5	keep	WEIGHT_DECAY 0.1 -> 0.05 (retune at DBS=16)
+4aa0827	1.224575	2.5	discard	WEIGHT_DECAY 0.05 -> 0.02 (too low)
+5ffe6eb	1.223190	2.5	discard	UNEMBEDDING_LR 0.010 -> 0.008 (within noise)
+7616250	1.229800	2.5	discard	SCALAR_LR 0.5 -> 1.0
+458280f	1.236635	3.5	discard	DEPTH 4->6 AR 96->64 (depth bump cost steps)
+3eab405	1.228215	2.5	discard	EMBEDDING_LR 0.6 -> 0.45
+416b620	1.223759	2.3	discard	MLP expansion 4 -> 3 (within-noise regression)
+ce826d0	1.242795	2.9	discard	MLP expansion 4 -> 6 (capacity gain not worth step loss)
+943acfd	1.245632	2.5	discard	disable value embeddings (ResFormer trick is essential)
+775cd21	1.237365	2.5	discard	activation relu^2 -> gelu
+4170123	1.225095	2.5	discard	ADAM_BETAS beta2 0.95 -> 0.99
+8b20102	1.237289	2.5	discard	Muon ns_steps 5 -> 3
+f0352b0	1.228611	2.5	discard	lm_head init std 0.001 -> 0.005
+cd803c0	1.227132	2.5	discard	x0_lambdas init 0.1 -> 0.2
+b627e24	1.273189	2.5	discard	WARMDOWN_RATIO 0.5 -> 0.0 (no cooldown, big regression)
+356fbed	1.222850	2.5	keep	WARMDOWN_RATIO 0.5 -> 0.7 (within noise)
+eccd7d0	1.223027	2.5	discard	WARMDOWN_RATIO 0.7 -> 0.8 (past optimum)
+66076c7	1.244883	2.5	discard	Muon momentum endpoint 0.95 -> 0.99
+fd58bd9	1.221383	2.5	keep	MATRIX_LR 0.05 -> 0.045
+6e3405e	1.226998	2.5	discard	MATRIX_LR 0.045 -> 0.04 (past optimum)
+3f67339	1.222240	2.5	discard	WEIGHT_DECAY 0.05 -> 0.07
+66b69a9	1.223634	2.5	discard	WEIGHT_DECAY 0.05 -> 0.04
+386a7fd	1.229341	2.5	discard	UNEMBEDDING_LR 0.010 -> 0.013
+10a45c8	1.224615	2.5	discard	UNEMBEDDING_LR 0.010 -> 0.008
+8e3f516	1.234251	2.5	discard	WARMUP_RATIO 0.0 -> 0.05
+8e46843	1.225752	2.5	discard	rotary base 10000 -> 5000
+1f639da	1.244932	3.3	discard	ASPECT_RATIO 96 -> 128 retry (still too big)
+13247c1	1.237387	2.3	discard	n_kv_head 3 -> 1 (MQA, quality drop)
+3779628	1.231192	2.5	discard	remove softcap (was load-bearing)
